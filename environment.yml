@@ -17,4 +17,4 @@ dependencies:
     - scikit-learn==1.0.1
     - threadpoolctl==3.0.0
     - yfinance==0.1.67
-prefix: /opt/anaconda3/envs/skydog
+
