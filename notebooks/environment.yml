@@ -3,5 +3,4 @@ channels:
   - conda-forge
 dependencies:
   - pandas
-  - pip:
-    - yfinance
+  - yfinance
