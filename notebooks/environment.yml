@@ -1,6 +1,0 @@
-name: skydog
-channels:
-  - conda-forge
-dependencies:
-  - pandas
-  - yfinance
