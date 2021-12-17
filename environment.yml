@@ -1,0 +1,8 @@
+name: skydog environment
+dependencies:
+  - numpy
+  - matplotlib
+  - pandas
+  - seaborn
+  - yfinance
+  
