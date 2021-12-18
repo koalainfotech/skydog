@@ -1,0 +1,10 @@
+name: skydog
+channels:
+  - conda-forge
+  - default
+dependencies:
+  - pandas
+  - scipy
+  - seaborn
+  - yfinance
+  - matplotlib
