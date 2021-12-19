@@ -13969,99 +13969,31 @@ a.anchor-link {
     <!-- End of mathjax configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="Skydog-%E5%91%A8%E6%8A%A5">Skydog &#21608;&#25253;<a class="anchor-link" href="#Skydog-%E5%91%A8%E6%8A%A5">&#182;</a></h1><p>本Notebook分析Skydog的投资活动中每周需要关注的重要数据。
 主要关注的是风险的监控。</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#all imports</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">yfinance</span> <span class="k">as</span> <span class="nn">yf</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-</pre></div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput ">
 
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#init</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="s1">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;darkgrid&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;deep&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="s1">&#39;sans-serif&#39;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color_codes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-            <span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">:(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">)})</span>
-
-<span class="n">df_holding</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/skydog/portfolio_latest_holdings_vw.csv&#39;</span><span class="p">)</span>
-<span class="n">df_price</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/skydog/latest_price.csv&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput ">
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="%E6%8A%95%E8%B5%84%E7%BB%84%E5%90%88%E8%B5%84%E4%BA%A7%E9%85%8D%E7%BD%AE">&#25237;&#36164;&#32452;&#21512;&#36164;&#20135;&#37197;&#32622;<a class="anchor-link" href="#%E6%8A%95%E8%B5%84%E7%BB%84%E5%90%88%E8%B5%84%E4%BA%A7%E9%85%8D%E7%BD%AE">&#182;</a></h2><p>以下是Skydog的资产配置情况。</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="%E5%A4%A7%E7%B1%BB%E8%B5%84%E4%BA%A7%E9%85%8D%E7%BD%AE">&#22823;&#31867;&#36164;&#20135;&#37197;&#32622;<a class="anchor-link" href="#%E5%A4%A7%E7%B1%BB%E8%B5%84%E4%BA%A7%E9%85%8D%E7%BD%AE">&#182;</a></h3>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Long asset allocations</span>
-<span class="n">df_asset_alloc</span><span class="o">=</span><span class="n">df_holding</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;sub_type&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
-<span class="n">df_long_alloc</span><span class="o">=</span><span class="n">df_asset_alloc</span><span class="p">[</span><span class="n">df_asset_alloc</span><span class="p">[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">total_long</span><span class="o">=</span><span class="n">df_long_alloc</span><span class="p">[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">df_long_alloc</span><span class="p">[</span><span class="s1">&#39;pct&#39;</span><span class="p">]</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">df_long_alloc</span><span class="p">[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">total_long</span>
-<span class="n">df_long_alloc</span><span class="o">=</span><span class="n">df_long_alloc</span><span class="p">[[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">,</span><span class="s1">&#39;pct&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">df_long_alloc</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Asset Type&#39;</span>
-<span class="c1">#df_long_alloc.plot.pie(y=&#39;market_val_usd&#39;,autopct=&quot;%.1f%%&quot;)</span>
-<span class="n">df_long_alloc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Total Long&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">df_long_alloc</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">df_long_alloc</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">({</span><span class="s2">&quot;market_val_usd&quot;</span><span class="p">:</span><span class="s2">&quot;$</span><span class="si">{:,.0f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;pct&quot;</span><span class="p">:</span><span class="s2">&quot;</span><span class="si">{:,.1f}</span><span class="s2">%&quot;</span><span class="p">,</span>
-                          <span class="p">})</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -14122,39 +14054,13 @@ a.anchor-link {
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Short asset allocation</span>
-<span class="n">df_short_alloc</span><span class="o">=</span><span class="n">df_asset_alloc</span><span class="p">[</span><span class="n">df_asset_alloc</span><span class="p">[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">total_short</span><span class="o">=</span><span class="n">df_short_alloc</span><span class="p">[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">df_short_alloc</span><span class="p">[</span><span class="s1">&#39;pct&#39;</span><span class="p">]</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">df_short_alloc</span><span class="p">[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">total_short</span>
-<span class="n">df_short_alloc</span><span class="o">=</span><span class="n">df_short_alloc</span><span class="p">[[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">,</span><span class="s1">&#39;pct&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">df_short_alloc</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Asset Type&#39;</span>
-<span class="n">df_short_alloc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Total Short&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">df_short_alloc</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">df_short_alloc</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">({</span><span class="s2">&quot;market_val_usd&quot;</span><span class="p">:</span><span class="s2">&quot;$</span><span class="si">{:,.0f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;pct&quot;</span><span class="p">:</span><span class="s2">&quot;</span><span class="si">{:,.1f}</span><span class="s2">%&quot;</span><span class="p">,</span>
-                          <span class="p">})</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -14206,44 +14112,16 @@ a.anchor-link {
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="%E5%B8%82%E5%9C%BA%E9%85%8D%E7%BD%AE">&#24066;&#22330;&#37197;&#32622;<a class="anchor-link" href="#%E5%B8%82%E5%9C%BA%E9%85%8D%E7%BD%AE">&#182;</a></h3>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Market allocations</span>
-<span class="n">df_market_alloc</span><span class="o">=</span><span class="n">df_holding</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;market&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
-<span class="n">total_long</span><span class="o">=</span><span class="n">df_market_alloc</span><span class="p">[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">df_market_alloc</span><span class="p">[</span><span class="s1">&#39;pct&#39;</span><span class="p">]</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">df_market_alloc</span><span class="p">[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">total_long</span>
-<span class="n">df_market_alloc</span><span class="o">=</span><span class="n">df_market_alloc</span><span class="p">[[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">,</span><span class="s1">&#39;pct&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">df_market_alloc</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Market&#39;</span>
-<span class="c1">#df_long_alloc.plot.pie(y=&#39;market_val_usd&#39;,autopct=&quot;%.1f%%&quot;)</span>
-<span class="n">df_market_alloc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">df_market_alloc</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">df_market_alloc</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">({</span><span class="s2">&quot;market_val_usd&quot;</span><span class="p">:</span><span class="s2">&quot;$</span><span class="si">{:,.0f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;pct&quot;</span><span class="p">:</span><span class="s2">&quot;</span><span class="si">{:,.1f}</span><span class="s2">%&quot;</span><span class="p">,</span>
-                          <span class="p">})</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -14325,13 +14203,11 @@ a.anchor-link {
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="%E6%8A%95%E8%B5%84%E7%BB%84%E5%90%88%E6%8C%81%E4%BB%93">&#25237;&#36164;&#32452;&#21512;&#25345;&#20179;<a class="anchor-link" href="#%E6%8A%95%E8%B5%84%E7%BB%84%E5%90%88%E6%8C%81%E4%BB%93">&#182;</a></h2>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="%E5%8D%81%E5%A4%A7%E9%A3%8E%E9%99%A9%E6%9A%B4%E9%9C%B2">&#21313;&#22823;&#39118;&#38505;&#26292;&#38706;<a class="anchor-link" href="#%E5%8D%81%E5%A4%A7%E9%A3%8E%E9%99%A9%E6%9A%B4%E9%9C%B2">&#182;</a></h3><p>以下是Skydog基金和个Terry个人账户合计的风险暴露最大的10家公司。
 备注：</p>
 <ol>
@@ -14340,42 +14216,13 @@ a.anchor-link {
 </ol>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_company</span><span class="o">=</span><span class="n">df_holding</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;company&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;risk_exposure_usd&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">total_risk</span><span class="o">=</span><span class="n">df_company</span><span class="o">.</span><span class="n">risk_exposure_usd</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">total_market_value</span><span class="o">=</span><span class="n">df_company</span><span class="o">.</span><span class="n">market_val_usd</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">df_company</span><span class="p">[</span><span class="s1">&#39;risk_pct&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">df_company</span><span class="o">.</span><span class="n">risk_exposure_usd</span><span class="o">/</span><span class="n">total_risk</span><span class="p">)</span>
-<span class="n">df_company</span><span class="p">[</span><span class="s1">&#39;market_value_pct&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">df_company</span><span class="o">.</span><span class="n">market_val_usd</span><span class="o">/</span><span class="n">total_market_value</span><span class="p">)</span>
-<span class="n">df_risk_exp</span><span class="o">=</span><span class="n">df_company</span><span class="p">[[</span><span class="s1">&#39;risk_exposure_usd&#39;</span><span class="p">,</span><span class="s1">&#39;risk_pct&#39;</span><span class="p">,</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">,</span><span class="s1">&#39;market_value_pct&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">df_risk_exp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">df_risk_exp</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">df_risk_exp</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">({</span><span class="s2">&quot;market_val_usd&quot;</span><span class="p">:</span><span class="s2">&quot;$</span><span class="si">{:,.0f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;risk_exposure_usd&quot;</span><span class="p">:</span><span class="s2">&quot;$</span><span class="si">{:,.0f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;risk_pct&quot;</span><span class="p">:</span><span class="s2">&quot;</span><span class="si">{:,.1f}</span><span class="s2">%&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;market_value_pct&quot;</span><span class="p">:</span><span class="s2">&quot;</span><span class="si">{:,.1f}</span><span class="s2">%&quot;</span><span class="p">,</span>
-
-                        <span class="p">})</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -14488,40 +14335,17 @@ a.anchor-link {
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="FCN">FCN<a class="anchor-link" href="#FCN">&#182;</a></h3><p>当前持有的FCN如下：</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_fcn</span><span class="o">=</span><span class="n">df_holding</span><span class="p">[</span><span class="n">df_holding</span><span class="p">[</span><span class="s1">&#39;sub_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;FCN&#39;</span><span class="p">]</span>
-<span class="n">df_fcn</span><span class="o">=</span><span class="n">df_fcn</span><span class="p">[[</span><span class="s1">&#39;desc&#39;</span><span class="p">,</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">]]</span>
-<span class="n">df_fcn</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">({</span><span class="s2">&quot;market_val_usd&quot;</span><span class="p">:</span><span class="s2">&quot;$</span><span class="si">{:,.0f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                          
-
-                        <span class="p">})</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -14578,38 +14402,16 @@ a.anchor-link {
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="%E4%B8%80%E5%91%A8%E5%B8%82%E5%80%BC%E5%87%8F%E5%B0%91-Top-10">&#19968;&#21608;&#24066;&#20540;&#20943;&#23569; Top 10<a class="anchor-link" href="#%E4%B8%80%E5%91%A8%E5%B8%82%E5%80%BC%E5%87%8F%E5%B0%91-Top-10">&#182;</a></h3>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#get all holding data</span>
-<span class="n">df_ticker</span><span class="o">=</span><span class="n">df_holding</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;ticker&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_price</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;ticker&#39;</span><span class="p">),</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">df_ticker</span> <span class="o">=</span> <span class="n">df_ticker</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="o">~</span><span class="n">df_ticker</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;^Unnamed&#39;</span><span class="p">)]</span> <span class="c1"># remove unanmed columns</span>
-<span class="n">df_ticker</span><span class="p">[</span><span class="s1">&#39;market_val_chg_1w&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">df_ticker</span><span class="p">[</span><span class="s1">&#39;market_val_usd&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">df_ticker</span><span class="p">[</span><span class="s1">&#39;1w_chg_pct&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span><span class="p">))</span>
-<span class="n">df_ticker</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -14812,30 +14614,13 @@ a.anchor-link {
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_ticker</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;market_val_chg_1w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -15025,34 +14810,16 @@ a.anchor-link {
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="%E4%B8%80%E5%91%A8%E5%B8%82%E5%80%BC%E5%A2%9E%E5%8A%A0-Top-10">&#19968;&#21608;&#24066;&#20540;&#22686;&#21152; Top 10<a class="anchor-link" href="#%E4%B8%80%E5%91%A8%E5%B8%82%E5%80%BC%E5%A2%9E%E5%8A%A0-Top-10">&#182;</a></h3>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_ticker</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;market_val_chg_1w&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -15242,34 +15009,16 @@ a.anchor-link {
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="%E4%B8%80%E5%91%A8%E8%B7%8C%E5%B9%85-Top-10">&#19968;&#21608;&#36300;&#24133; Top 10<a class="anchor-link" href="#%E4%B8%80%E5%91%A8%E8%B7%8C%E5%B9%85-Top-10">&#182;</a></h3>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_ticker</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;1w_chg_pct&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -15459,34 +15208,16 @@ a.anchor-link {
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="%E4%B8%80%E5%91%A8%E6%B6%A8%E5%B9%85-Top-10">&#19968;&#21608;&#28072;&#24133; Top 10<a class="anchor-link" href="#%E4%B8%80%E5%91%A8%E6%B6%A8%E5%B9%85-Top-10">&#182;</a></h3>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_ticker</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;1w_chg_pct&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span> <span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -15676,47 +15407,21 @@ a.anchor-link {
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="%E8%B5%84%E4%BA%A7%E7%9B%B8%E5%85%B3%E5%BA%A6%E7%9B%91%E6%B5%8B">&#36164;&#20135;&#30456;&#20851;&#24230;&#30417;&#27979;<a class="anchor-link" href="#%E8%B5%84%E4%BA%A7%E7%9B%B8%E5%85%B3%E5%BA%A6%E7%9B%91%E6%B5%8B">&#182;</a></h2>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="%E6%A0%B8%E5%BF%83%E6%8C%81%E4%BB%93%E4%B9%8B%E9%97%B4%E7%9A%84%E7%9B%B8%E5%85%B3%E5%BA%A6">&#26680;&#24515;&#25345;&#20179;&#20043;&#38388;&#30340;&#30456;&#20851;&#24230;<a class="anchor-link" href="#%E6%A0%B8%E5%BF%83%E6%8C%81%E4%BB%93%E4%B9%8B%E9%97%B4%E7%9A%84%E7%9B%B8%E5%85%B3%E5%BA%A6">&#182;</a></h3><p>以下是当前重仓的标的之间的相关度：</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ticker_list</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;0700.HK&#39;</span><span class="p">,</span><span class="s1">&#39;BABA&#39;</span><span class="p">,</span><span class="s1">&#39;FB&#39;</span><span class="p">,</span><span class="s1">&#39;1810.HK&#39;</span><span class="p">,</span><span class="s1">&#39;TME&#39;</span><span class="p">]</span>
-<span class="n">df_price</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-
-<span class="k">for</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="n">ticker_list</span><span class="p">:</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">yf</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
-    <span class="n">df_price</span><span class="p">[</span><span class="n">ticker</span><span class="p">]</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-    <span class="n">df_return</span><span class="o">=</span><span class="n">df_price</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-    
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>[*********************100%***********************]  1 of 1 completed
@@ -15732,92 +15437,17 @@ a.anchor-link {
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">cal_rolling_cov</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">period</span><span class="p">):</span>
-    <span class="n">start_date</span><span class="o">=</span><span class="n">s1</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">cov</span><span class="o">=</span><span class="nb">dict</span><span class="p">()</span>
-    <span class="k">while</span> <span class="n">start_date</span><span class="o">&lt;</span><span class="n">s1</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">-</span><span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">period</span><span class="p">):</span>
-        <span class="n">end_date</span><span class="o">=</span><span class="n">start_date</span><span class="o">+</span><span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">period</span><span class="p">)</span>
-        <span class="n">a1</span><span class="o">=</span><span class="n">s1</span><span class="p">[</span><span class="n">start_date</span><span class="p">:</span><span class="n">end_date</span><span class="p">]</span>
-        <span class="n">a2</span><span class="o">=</span><span class="n">s2</span><span class="p">[</span><span class="n">start_date</span><span class="p">:</span><span class="n">end_date</span><span class="p">]</span>
-        <span class="n">cov</span><span class="p">[</span><span class="n">end_date</span><span class="p">]</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="o">+</span><span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">cov</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span>
-    <span class="n">cov</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">s1</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="n">s2</span><span class="o">.</span><span class="n">name</span>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput ">
 
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span>
-</pre></div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput ">
 
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate correlations</span>
-<span class="n">resample</span><span class="o">=</span><span class="s1">&#39;1W&#39;</span>
-<span class="n">days</span><span class="o">=</span><span class="mi">90</span>
-
-<span class="n">df_price_rs</span><span class="o">=</span><span class="n">df_price</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">resample</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>
-<span class="n">df_price_rs</span>
-<span class="n">df_return</span><span class="o">=</span><span class="n">df_price_rs</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-
-
-<span class="n">df_cov</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-
-<span class="k">for</span> <span class="n">ticker1</span> <span class="ow">in</span> <span class="n">ticker_list</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">ticker2</span> <span class="ow">in</span> <span class="n">ticker_list</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">ticker2</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">ticker1</span> <span class="ow">in</span> <span class="n">df_cov</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="n">df_cov</span><span class="p">[</span><span class="n">ticker1</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">ticker2</span><span class="p">]</span><span class="o">=</span><span class="n">df_cov</span><span class="p">[</span><span class="n">ticker2</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">ticker1</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">df_cov</span><span class="p">[</span><span class="n">ticker1</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">ticker2</span><span class="p">]</span><span class="o">=</span><span class="n">cal_rolling_cov</span><span class="p">(</span><span class="n">df_return</span><span class="p">[</span><span class="n">ticker1</span><span class="p">],</span><span class="n">df_return</span><span class="p">[</span><span class="n">ticker2</span><span class="p">],</span><span class="n">days</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">float_format</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span>
-<span class="n">df_cov_current</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">ticker_list</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">ticker1</span> <span class="ow">in</span> <span class="n">ticker_list</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">ticker2</span> <span class="ow">in</span> <span class="n">ticker_list</span><span class="p">:</span>
-        <span class="n">df_cov_current</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ticker1</span><span class="p">,</span><span class="n">ticker2</span><span class="p">]</span><span class="o">=</span><span class="n">df_cov</span><span class="p">[</span><span class="n">ticker1</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">ticker2</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%i</span><span class="s1"> Days Trailling Correlation based on </span><span class="si">%s</span><span class="s1"> return&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">days</span><span class="p">,</span><span class="n">resample</span><span class="p">))</span>
-<span class="n">df_cov_current</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>90 Days Trailling Correlation based on 1W return
@@ -15826,10 +15456,6 @@ a.anchor-link {
 </div>
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
@@ -15910,36 +15536,13 @@ a.anchor-link {
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">focus</span><span class="o">=</span><span class="s1">&#39;0700.HK&#39;</span>
-<span class="n">col</span><span class="o">=</span><span class="p">[]</span>
-<span class="k">for</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="n">ticker_list</span><span class="p">:</span>
-    <span class="n">col</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">focus</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">ticker</span><span class="p">)</span>
-<span class="n">df_cov_filtered</span><span class="o">=</span><span class="n">df_cov</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
-<span class="n">plot</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_cov_filtered</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">-</span><span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="o">*</span><span class="mi">10</span><span class="p">):])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Rolling </span><span class="si">%i</span><span class="s1"> Days Correlation based on </span><span class="si">%s</span><span class="s1"> Return&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">days</span><span class="p">,</span><span class="n">resample</span><span class="p">))</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
 
 
 
@@ -15950,10 +15553,6 @@ a.anchor-link {
 </div>
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
 
 
 
