@@ -56,7 +56,7 @@ def get_port_holding_metric(df_stock):
     df_metric['drawdown_from_52w_peak']=df_stock['max_drawdown']
     df_metric['market_cap']=df_stock['marketCap']*df_stock['rate2']
     df_metric['revenue']=df_stock['totalRevenue']*df_stock['rate']
-    df_metric['revenue_growth']=df_stock['revenueGrowth']
+    df_metric['revenue_growth']=100*df_stock['revenueGrowth']
     df_metric['cashflow']=df_stock['operatingCashflow']*df_stock['rate']
     df_metric['net_income']=df_stock['netIncomeToCommon']*df_stock['rate']
     df_metric['gross_profit']=df_stock['grossProfits']*df_stock['rate']
@@ -64,9 +64,9 @@ def get_port_holding_metric(df_stock):
     df_metric['pe_ttm']=df_stock['trailingPE']
     df_metric['pe_fwd']=df_stock['forwardPE']
     df_metric['peg']=df_stock['pegRatio']
-    df_metric['roe']=df_stock['returnOnEquity']
-    df_metric['gross_margin']=df_metric['gross_profit']/df_metric['revenue']
-    df_metric['cf_margin']=df_metric['cashflow']/df_metric['revenue']
+    df_metric['roe']=100*df_stock['returnOnEquity']
+    df_metric['gross_margin']=100*df_metric['gross_profit']/df_metric['revenue']
+    df_metric['cf_margin']=100*df_metric['cashflow']/df_metric['revenue']
     return df_metric
 
 def get_port_metric(df_metric):
