@@ -50,6 +50,10 @@ def get_port_holding_metric(df_stock):
     df_metric=pd.DataFrame()
     df_metric['ticker']=df_stock['ticker']
     df_metric['weight']=df_stock['weight']
+    df_metric['price']=df_stock['currentPrice']
+    df_metric['1w_chg_pct']=df_stock['1w_chg_pct']
+    df_metric['1m_chg_pct']=df_stock['1m_chg_pct']
+    df_metric['drawdown_from_52w_peak']=df_stock['max_drawdown']
     df_metric['market_cap']=df_stock['marketCap']*df_stock['rate2']
     df_metric['revenue']=df_stock['totalRevenue']*df_stock['rate']
     df_metric['revenue_growth']=df_stock['revenueGrowth']
@@ -61,6 +65,8 @@ def get_port_holding_metric(df_stock):
     df_metric['pe_fwd']=df_stock['forwardPE']
     df_metric['peg']=df_stock['pegRatio']
     df_metric['roe']=df_stock['returnOnEquity']
+    df_metric['gross_margin']=df_metric['gross_profit']/df_metric['revenue']
+    df_metric['cf_margin']=df_metric['cashflow']/df_metric['revenue']
     return df_metric
 
 def get_port_metric(df_metric):
@@ -81,5 +87,6 @@ def get_port_metric(df_metric):
     port_stat['income_rate']=100/port_stat['pe']
     port_stat['profit_margin']=100*port_stat['net_income']/port_stat['revenue']
     df_port_stat=pd.DataFrame.from_dict(port_stat,orient='index')
+    
 
     return df_port_stat
