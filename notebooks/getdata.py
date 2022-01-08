@@ -13,7 +13,7 @@ def get_stock_info(ticker):
     stock_info['ticker']=ticker
     return stock_info
 
-def get_port_component_metrics(df_port):
+def get_port_holding_info(df_port):
     df_port.columns=['ticker','weight']
     df_stock=pd.DataFrame()
     for ticker in df_port.ticker:
@@ -22,6 +22,7 @@ def get_port_component_metrics(df_port):
             df_stock=df_stock.append(stock_info,ignore_index=True)
         except:
             pass
+    df_stock['weight']=df_port['weight']/100
     df_stock['ratecode']=df_stock['financialCurrency']+'-USD'
     df_stock['ratecode2']=df_stock['currency']+'-USD'
     df_stock['USD-USD']=1
@@ -41,18 +42,26 @@ def get_port_component_metrics(df_port):
     df_stock.loc[df_stock['rate2'].isna(),['rate2']]=df_stock['EUR-USD'].where(df_stock['ratecode2']=='EUR-USD')
     df_stock.loc[df_stock['rate2'].isna(),['rate2']]=df_stock['HKD-USD'].where(df_stock['ratecode2']=='HKD-USD')
 
+  
+
+    return df_stock
+
+def get_port_holding_metric(df_stock):
     df_metric=pd.DataFrame()
     df_metric['ticker']=df_stock['ticker']
-    df_metric['weight']=df_port['weight']/100
+    df_metric['weight']=df_stock['weight']
     df_metric['market_cap']=df_stock['marketCap']*df_stock['rate2']
     df_metric['revenue']=df_stock['totalRevenue']*df_stock['rate']
     df_metric['revenue_growth']=df_stock['revenueGrowth']
     df_metric['cashflow']=df_stock['operatingCashflow']*df_stock['rate']
     df_metric['net_income']=df_stock['netIncomeToCommon']*df_stock['rate']
     df_metric['gross_profit']=df_stock['grossProfits']*df_stock['rate']
-
-    return df_metric,df_stock
-
+    df_metric['pcf']=df_metric['market_cap']/df_metric['cashflow']
+    df_metric['pe_ttm']=df_stock['trailingPE']
+    df_metric['pe_fwd']=df_stock['forwardPE']
+    df_metric['peg']=df_stock['pegRatio']
+    df_metric['roe']=df_stock['returnOnEquity']
+    return df_metric
 
 def get_port_metric(df_metric):
     port_stat=dict()
