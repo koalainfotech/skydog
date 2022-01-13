@@ -53,39 +53,58 @@ def get_port_holding_metric(df_stock):
     df_metric['price']=df_stock['currentPrice']
     df_metric['1w_chg_pct']=df_stock['1w_chg_pct']
     df_metric['1m_chg_pct']=df_stock['1m_chg_pct']
-    df_metric['drawdown_from_52w_peak']=df_stock['max_drawdown']
+    df_metric['drawdown']=df_stock['max_drawdown']
+    df_metric['target_price']=df_stock['targetMedianPrice']
+
+        
     df_metric['market_cap']=df_stock['marketCap']*df_stock['rate2']
     df_metric['revenue']=df_stock['totalRevenue']*df_stock['rate']
-    df_metric['revenue_growth']=100*df_stock['revenueGrowth']
+    df_metric['revenue_last_year']=df_metric['revenue']/(1+df_stock['revenueGrowth'])
+    df_metric['gross_profit']=df_stock['grossProfits']*df_stock['rate']
     df_metric['cashflow']=df_stock['operatingCashflow']*df_stock['rate']
     df_metric['net_income']=df_stock['netIncomeToCommon']*df_stock['rate']
-    df_metric['gross_profit']=df_stock['grossProfits']*df_stock['rate']
+
     df_metric['pcf']=df_metric['market_cap']/df_metric['cashflow']
     df_metric['pe_ttm']=df_stock['trailingPE']
+    df_metric['fwd_eps']=df_stock['forwardEps']
     df_metric['pe_fwd']=df_stock['forwardPE']
     df_metric['peg']=df_stock['pegRatio']
+    df_metric['revenue_growth']=100*df_stock['revenueGrowth']
+    df_metric['est_eps_growth']=(df_stock['forwardEps']/df_stock['trailingEps']-1)*100
+    df_metric['fwd_peg']=df_metric['pe_fwd']/df_metric['est_eps_growth']
+
     df_metric['roe']=100*df_stock['returnOnEquity']
-    df_metric['gross_margin']=100*df_metric['gross_profit']/df_metric['revenue']
+    df_metric['gross_margin']=100*df_stock['grossMargins']
     df_metric['cf_margin']=100*df_metric['cashflow']/df_metric['revenue']
+    df_metric['net_margin']=100*df_stock['profitMargins']
+
+
+
     return df_metric
 
 def get_port_metric(df_metric):
     port_stat=dict()
     port_stat['market_cap']=(df_metric['market_cap']*df_metric['weight']).sum()
     port_stat['revenue']=(df_metric['revenue']*df_metric['weight']).sum()
-    port_stat['revenue_growth']=100*((df_metric['revenue']-df_metric['revenue']/(1+df_metric['revenue_growth']))*df_metric['weight']).sum()/port_stat['revenue']
+    port_stat['revenue_growth']=(port_stat['revenue']/((df_metric['revenue_last_year']*df_metric['weight']).sum())-1)*100
     port_stat['ps']=port_stat['market_cap']/port_stat['revenue']
+
     port_stat['gross_profit']=(df_metric['gross_profit']*df_metric['weight']).sum()
     port_stat['pgp']=port_stat['market_cap']/port_stat['gross_profit']
     port_stat['gross_margin']=100*port_stat['gross_profit']/port_stat['revenue']
+
     port_stat['cashflow']=(df_metric['cashflow']*df_metric['weight']).sum()
     port_stat['pcf']=port_stat['market_cap']/port_stat['cashflow']
     port_stat['cf_rate']=100/port_stat['pcf']
     port_stat['cf_margin']=100*port_stat['cashflow']/port_stat['revenue']
+
     port_stat['net_income']=(df_metric['net_income']*df_metric['weight']).sum()
     port_stat['pe']=port_stat['market_cap']/port_stat['net_income']
     port_stat['income_rate']=100/port_stat['pe']
     port_stat['profit_margin']=100*port_stat['net_income']/port_stat['revenue']
+    port_stat['est_net_income']=(df_metric['net_income']*(1+df_metric['est_eps_growth']/100)*df_metric['weight']).sum()
+    port_stat['fwd_pe']=port_stat['market_cap']/port_stat['est_net_income']
+
     df_port_stat=pd.DataFrame.from_dict(port_stat,orient='index')
     
 
