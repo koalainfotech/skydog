@@ -66,6 +66,7 @@ def get_port_holding_metric(df_stock):
 
     df_metric['pcf']=df_metric['market_cap']/df_metric['cashflow']
     df_metric['pe_ttm']=df_stock['trailingPE']
+    df_metric['eps_ttm']=df_stock['trailingEps']
     df_metric['fwd_eps']=df_stock['forwardEps']
     df_metric['pe_fwd']=df_stock['forwardPE']
     df_metric['peg']=df_stock['pegRatio']
