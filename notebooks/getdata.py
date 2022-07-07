@@ -49,7 +49,7 @@ def get_port_holding_info(df_port):
 def get_port_holding_metric(df_stock):
     df_metric=pd.DataFrame()
     df_metric['ticker']=df_stock['ticker']
-    df_metric['weight']=df_stock['weight']
+    #df_metric['weight']=df_stock['weight']
     df_metric['price']=df_stock['currentPrice']
     df_metric['1w_chg_pct']=df_stock['1w_chg_pct']
     df_metric['1m_chg_pct']=df_stock['1m_chg_pct']
@@ -58,6 +58,7 @@ def get_port_holding_metric(df_stock):
 
         
     df_metric['market_cap']=df_stock['marketCap']*df_stock['rate2']
+    df_metric['weight']=df_metric['market_cap']/df_metric['market_cap'].sum()
     df_metric['revenue']=df_stock['totalRevenue']*df_stock['rate']
     df_metric['revenue_last_year']=df_metric['revenue']/(1+df_stock['revenueGrowth'])
     df_metric['gross_profit']=df_stock['grossProfits']*df_stock['rate']
@@ -105,6 +106,7 @@ def get_port_metric(df_metric):
     port_stat['profit_margin']=100*port_stat['net_income']/port_stat['revenue']
     port_stat['est_net_income']=(df_metric['net_income']*(1+df_metric['est_eps_growth']/100)*df_metric['weight']).sum()
     port_stat['fwd_pe']=port_stat['market_cap']/port_stat['est_net_income']
+    port_stat['fwd_income_growth']=100*(port_stat['est_net_income']/port_stat['net_income']-1)
 
     df_port_stat=pd.DataFrame.from_dict(port_stat,orient='index')
     
