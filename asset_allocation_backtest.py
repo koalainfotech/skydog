@@ -17,7 +17,7 @@ import datetime
 import backtrader as bt
 import pandas as pd
 import yfinance as yf
-import strategies
+import notebooks.kingStrategies as ks
 import numpy as np
 
 # #读取投资组合配置
@@ -27,15 +27,16 @@ import numpy as np
 # allocation=allocation[0]
 
 #定义投资组合配置
-#allocation={'QQQ':0.5,'MCHI':0.5}
-allocation={'AMZN':0.2,'GOOG':0.2,'AAPL':0.2,'MSFT':0.2,'FB':0.2}
+allocation={'QQQ':0.5,
+            'TLT':0.2}
+
 
 
 
 
 #全局参数
 start_date=datetime.date(2021,1,1)
-end_date=datetime.date(2021,8,23)
+end_date=datetime.date(2022,8,1)
 writer=pd.ExcelWriter('./output/test.xlsx')
 
 
@@ -44,15 +45,15 @@ if __name__ == '__main__':
     cerebro = bt.Cerebro()    
     
     # 加入策略    
-    cerebro.addstrategy(strategies.BuyAndRebalance1) 
+    cerebro.addstrategy(ks.PortSmaCross) 
 
     #准备回测数据
     for ticker,allocation in allocation.items():
         data=bt.feeds.PandasData(dataname=yf.download(ticker, start_date, end_date, auto_adjust=True),plot=False)
         data.allocation=allocation
         cerebro.adddata(data,name=ticker) 
-    benchmark_data=bt.feeds.PandasData(dataname=yf.download('QQQ', start_date, end_date, auto_adjust=True),plot=False)
-    cerebro.adddata(benchmark_data)
+    #benchmark_data=bt.feeds.PandasData(dataname=yf.download('QQQ', start_date, end_date, auto_adjust=True),plot=False)
+    #cerebro.adddata(benchmark_data)
   
     
     # broker设置资金、手续费 \
@@ -77,7 +78,7 @@ if __name__ == '__main__':
     cerebro.addobserver(bt.observers.Broker)
     cerebro.addobserver(bt.observers.FundValue)
     #cerebro.addobserver(bt.observers.TimeReturn,timeframe=bt.TimeFrame.NoTimeFrame)
-    cerebro.addobserver(bt.observers.Benchmark,data=benchmark_data, timeframe=bt.TimeFrame.NoTimeFrame)
+    #cerebro.addobserver(bt.observers.Benchmark,data=benchmark_data, timeframe=bt.TimeFrame.NoTimeFrame)
     cerebro.addobserver(bt.observers.DrawDown)
     
 
